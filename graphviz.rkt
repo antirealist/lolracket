@@ -28,11 +28,17 @@
         any-c))
   (string-map sub-test str))
 
+;; translated this from the CLHS
+;; scheme/racket doesn't seem to offer it
+
+(define (complement pred)
+  (lambda rest-args (not (apply pred rest-args))))
+
 ;; this version of dot-name will not convert '24 to "24"
 ;; racket does not recognize '24 as a valid scheme symbol
 
 (define (dot-name exp)
-  (substitute-if #\_ (lambda (c) (not (char-alphanumeric? c))) (symbol->string exp)))
+  (substitute-if #\_ (complement char-alphanumeric?) (symbol->string exp)))
 
 
 
