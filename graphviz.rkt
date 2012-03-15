@@ -104,6 +104,37 @@
             (lambda ()
               (graph->dot nodes edges))))
 
+(define (maplist proc lst)
+    (unless (empty? lst)
+      (proc lst)
+      (maplist proc (cdr lst))))
+
+(define (uedges->dot edges)
+  (maplist (lambda (lst)
+             (for-each (lambda (edge)
+                         (unless (assoc (car edge) (cdr lst))
+                           (newline)
+                           (display (dot-name (caar lst)))
+                           (display "--")
+                           (display (dot-name (car edge)))
+                           (display "[label=\"")
+                           (display (dot-label (cdr edge)))
+                           (display "\"];")))
+                       (cdar lst)))
+           edges))
+
+(define (ugraph->dot nodes edges)
+  (display "graph{")
+  (nodes->dot nodes)
+  (uedges->dot edges)
+  (display "}"))
+
+(define (ugraph->png fname nodes edges)
+  (dot->png fname
+            (lambda ()
+              (ugraph->dot nodes edges))))
+
+
 
 
 
