@@ -4,8 +4,11 @@
 ;;; Steve Austin 
 ;;; March 2012
 
+
 (require srfi/13)       ;; For string-map
 (require mzlib/string)  ;; provides expr->string
+
+(provide (all-defined-out))
 
 (define *wizard-nodes* '((living-room (you are in the living room. 
                                            a wizard is snoring loudly on the couch.))
